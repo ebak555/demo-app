@@ -127,7 +127,7 @@ spec:
             }
             post {
                 always {
-                    junit testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true
+                    archiveArtifacts artifacts: 'target/surefire-reports/*.xml', allowEmptyArchive: true
                 }
             }
         }
@@ -293,7 +293,7 @@ spec:
 
     post {
         always {
-            cleanWs()
+            deleteDir()
         }
         success {
             echo "Pipeline succeeded: ${IMAGE}:${GIT_SHA} built, scanned, signed, and deployed via GitOps."
