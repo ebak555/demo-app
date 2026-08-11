@@ -27,6 +27,9 @@ spec:
       image: aquasec/trivy:0.55.0
       command: ["sleep"]
       args: ["99d"]
+      volumeMounts:
+        - name: trivy-cache
+          mountPath: /root/.cache/trivy
       resources:
         requests: { cpu: 50m, memory: 96Mi }
         limits:   { cpu: 500m, memory: 512Mi }
@@ -90,6 +93,9 @@ spec:
         items:
           - key: .dockerconfigjson
             path: config.json
+    - name: trivy-cache
+      persistentVolumeClaim:
+        claimName: trivy-cache
 '''
         }
     }
