@@ -96,7 +96,7 @@ spec:
 
     options {
         disableConcurrentBuilds()
-        timeout(time: 30, unit: 'MINUTES')
+        timeout(time: 60, unit: 'MINUTES')
         buildDiscarder(logRotator(numToKeepStr: '20'))
     }
 
@@ -137,6 +137,7 @@ spec:
                 container('trivy') {
                     sh '''
                         trivy fs \
+                          --timeout 20m \
                           --scanners vuln \
                           --severity CRITICAL,HIGH \
                           --exit-code 1 \
@@ -158,12 +159,14 @@ spec:
                 container('trivy') {
                     sh '''
                         trivy config \
+                          --timeout 20m \
                           --severity CRITICAL,HIGH \
                           --exit-code 1 \
                           --format table \
                           -o trivy-config-report.txt \
                           .
                         trivy fs \
+                          --timeout 20m \
                           --scanners secret \
                           --exit-code 1 \
                           --format table \
@@ -199,6 +202,7 @@ spec:
                 container('trivy') {
                     sh '''
                         trivy image \
+                          --timeout 20m \
                           --input image.tar \
                           --severity CRITICAL,HIGH \
                           --exit-code 1 \
