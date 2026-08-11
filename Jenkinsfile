@@ -252,17 +252,16 @@ spec:
         stage('Sign Image') {
             steps {
                 container('cosign') {
-                    withCredentials([
-                        file(credentialsId: 'cosign-key', variable: 'COSIGN_KEY_PATH'),
-                        string(credentialsId: 'cosign-password', variable: 'COSIGN_PASSWORD')
-                    ]) {
-                        sh '''
-                            cosign sign --yes \
-                              --key "$COSIGN_KEY_PATH" \
-                              -a git-sha="${GIT_SHA}" \
-                              -a build-url="${BUILD_URL}" \
-                              "${IMAGE}@${IMAGE_DIGEST}"
-                        '''
+                    withCredentials([file(credentialsId: 'cosign-key', variable: 'COSIGN_KEY_PATH')]) {
+                        withCredentials([string(credentialsId: 'cosign-password', variable: 'COSIGN_PASSWORD')]) {
+                            sh '''
+                                cosign sign --yes \
+                                  --key "$COSIGN_KEY_PATH" \
+                                  -a git-sha="${GIT_SHA}" \
+                                  -a build-url="${BUILD_URL}" \
+                                  "${IMAGE}@${IMAGE_DIGEST}"
+                            '''
+                        }
                     }
                 }
             }
