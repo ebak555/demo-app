@@ -293,7 +293,9 @@ spec:
 
     post {
         always {
-            deleteDir()
+            warnError('workspace cleanup failed') {
+                deleteDir()
+            }
         }
         success {
             echo "Pipeline succeeded: ${IMAGE}:${GIT_SHA} built, scanned, signed, and deployed via GitOps."
