@@ -21,14 +21,14 @@ spec:
       command: ["sleep"]
       args: ["99d"]
       resources:
-        requests: { cpu: 250m, memory: 512Mi }
+        requests: { cpu: 200m, memory: 350Mi }
         limits:   { cpu: 1000m, memory: 1Gi }
     - name: trivy
       image: aquasec/trivy:0.55.0
       command: ["sleep"]
       args: ["99d"]
       resources:
-        requests: { cpu: 100m, memory: 256Mi }
+        requests: { cpu: 50m, memory: 96Mi }
         limits:   { cpu: 500m, memory: 512Mi }
     - name: kaniko
       image: gcr.io/kaniko-project/executor:v1.23.2-debug
@@ -38,7 +38,7 @@ spec:
         - name: docker-config
           mountPath: /kaniko/.docker
       resources:
-        requests: { cpu: 250m, memory: 512Mi }
+        requests: { cpu: 100m, memory: 200Mi }
         limits:   { cpu: 1000m, memory: 1Gi }
     - name: crane
       image: gcr.io/go-containerregistry/crane:debug
@@ -51,28 +51,28 @@ spec:
         - name: docker-config
           mountPath: /kaniko/.docker
       resources:
-        requests: { cpu: 100m, memory: 128Mi }
+        requests: { cpu: 50m, memory: 64Mi }
         limits:   { cpu: 300m, memory: 256Mi }
     - name: syft
       image: anchore/syft:latest
       command: ["sleep"]
       args: ["99d"]
       resources:
-        requests: { cpu: 100m, memory: 256Mi }
+        requests: { cpu: 50m, memory: 96Mi }
         limits:   { cpu: 500m, memory: 512Mi }
     - name: cosign
       image: ghcr.io/sigstore/cosign/cosign:v2.4.1
       command: ["sleep"]
       args: ["99d"]
       resources:
-        requests: { cpu: 100m, memory: 128Mi }
+        requests: { cpu: 50m, memory: 64Mi }
         limits:   { cpu: 300m, memory: 256Mi }
     - name: git
       image: alpine/git:latest
       command: ["sleep"]
       args: ["99d"]
       resources:
-        requests: { cpu: 50m, memory: 64Mi }
+        requests: { cpu: 25m, memory: 32Mi }
         limits:   { cpu: 200m, memory: 128Mi }
   volumes:
     - name: docker-config
