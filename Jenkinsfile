@@ -54,16 +54,25 @@ spec:
         requests: { cpu: 50m, memory: 64Mi }
         limits:   { cpu: 300m, memory: 256Mi }
     - name: syft
-      image: anchore/syft:latest
-      command: ["sleep"]
-      args: ["99d"]
+      image: alpine:3.20
+      command: ["sh", "-c"]
+      args:
+        - |
+          apk add --no-cache curl >/dev/null
+          curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+          sleep infinity
       resources:
         requests: { cpu: 50m, memory: 96Mi }
         limits:   { cpu: 500m, memory: 512Mi }
     - name: cosign
-      image: ghcr.io/sigstore/cosign/cosign:v2.4.1
-      command: ["sleep"]
-      args: ["99d"]
+      image: alpine:3.20
+      command: ["sh", "-c"]
+      args:
+        - |
+          apk add --no-cache curl >/dev/null
+          curl -sSfL -o /usr/local/bin/cosign https://github.com/sigstore/cosign/releases/download/v2.4.1/cosign-linux-amd64
+          chmod +x /usr/local/bin/cosign
+          sleep infinity
       resources:
         requests: { cpu: 50m, memory: 64Mi }
         limits:   { cpu: 300m, memory: 256Mi }
