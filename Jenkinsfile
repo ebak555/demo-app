@@ -187,7 +187,7 @@ spec:
                           --context "$(pwd)" \
                           --dockerfile Dockerfile \
                           --no-push \
-                          --tarball=image.tar \
+                          --tar-path=image.tar \
                           --destination="${IMAGE}:${GIT_SHA}"
                     '''
                 }
